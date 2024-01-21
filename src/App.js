@@ -1,23 +1,26 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState } from "react";
 
 function App() {
+  // State hook for managing the counter
+  const [counter, setCounter] = useState(1);
+
+  // Function to handle incrementing the counter
+  const incrementCounter = () => {
+    setCounter((prevCounter) => prevCounter + 1);
+  };
+
+  function formatNumberWithDigits(number, numberOfDigits) {
+    const formattedNumber = String(number).padStart(numberOfDigits, "0");
+    return formattedNumber;
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="App-header">
+        <img src={`/moon/moon.${formatNumberWithDigits(counter, 4)}.jpg`} />
+        <button onClick={incrementCounter}>Increase {counter}</button>
+      </div>
     </div>
   );
 }
