@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/moon/static/css/main.e6fd9e56.css",
+    "main.js": "/moon/static/js/main.7b2051fd.js",
+    "static/js/787.390ae24a.chunk.js": "/moon/static/js/787.390ae24a.chunk.js",
+    "index.html": "/moon/index.html",
+    "main.e6fd9e56.css.map": "/moon/static/css/main.e6fd9e56.css.map",
+    "main.7b2051fd.js.map": "/moon/static/js/main.7b2051fd.js.map",
+    "787.390ae24a.chunk.js.map": "/moon/static/js/787.390ae24a.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6fd9e56.css",
+    "static/js/main.7b2051fd.js"
+  ]
+}
