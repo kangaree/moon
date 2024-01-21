@@ -1,5 +1,6 @@
 import "./App.css";
 import { useState, useEffect } from "react";
+import moonData from "./mooninfo_2024.json";
 
 function App() {
   // State hook for managing the counter
@@ -46,20 +47,8 @@ function App() {
   const [jsonData, setJsonData] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("/data/mooninfo_2024.json");
-        const data = await response.json();
-        setJsonData(data);
-
-        // Set the initial value
-        setSelectedDate(getFormattedCurrentTime());
-      } catch (error) {
-        console.error("Error fetching JSON:", error);
-      }
-    };
-
-    fetchData();
+    setJsonData(moonData);
+    setSelectedDate(getFormattedCurrentTime());
   }, []);
 
   // State to store selected date
@@ -99,7 +88,7 @@ function App() {
     <div className="App">
       <h1 style={{ display: "float" }}>2024 Moon Phases</h1>
       <img
-        src={`/moon/moon.${formatNumberWithDigits(counter, 4)}.jpg`}
+        src={process.env.PUBLIC_URL + `/moon/moon.${formatNumberWithDigits(counter, 4)}.jpg`}
         style={{ maxHeight: "75vh", maxWidth: "100vw" }}
       />
       <input
