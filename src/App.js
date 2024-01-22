@@ -4,12 +4,8 @@ import moonData from "./mooninfo_2024.json";
 
 function App() {
   // State hook for managing the counter
-  const [counter, setCounter] = useState(1);
-
-  // Function to handle incrementing the counter
-  const incrementCounter = () => {
-    setCounter((prevCounter) => prevCounter + 1);
-  };
+  // 959 is the lunar new year moon- Feb 10
+  const [counter, setCounter] = useState(959);
 
   function formatNumberWithDigits(number, numberOfDigits) {
     const formattedNumber = String(number).padStart(numberOfDigits, "0");
@@ -44,18 +40,28 @@ function App() {
   const minDate = getFormattedDate(2024);
   const maxDate = getFormattedDate(2024, 12, 31, 23, 59);
 
-  const [jsonData, setJsonData] = useState(null);
-
   useEffect(() => {
-    setJsonData(moonData);
+    const targetDate = new Date();
+
+    const closestMatch = moonData.reduce((closest, current) => {
+      // Parse the current date string into a Date object
+      const currentDate = new Date(current.time);
+
+      const currentDiff = Math.abs(currentDate - targetDate);
+      const closestDiff = Math.abs(new Date(closest.time) - targetDate);
+
+      return currentDiff < closestDiff ? current : closest;
+    }, moonData[0]);
+
+    const index = moonData.indexOf(closestMatch);
+
+    setCounter(index);
+
     setSelectedDate(getFormattedCurrentTime());
   }, []);
 
   // State to store selected date
   const [selectedDate, setSelectedDate] = useState("");
-
-  // State to store the found item based on the selected date
-  const [foundItem, setFoundItem] = useState(null);
 
   // Function to handle date input change
   const handleDateChange = (event) => {
@@ -69,7 +75,7 @@ function App() {
     // Parse the target date string into a Date object
     const targetDate = new Date(targetDateString);
 
-    const closestMatch = jsonData.reduce((closest, current) => {
+    const closestMatch = moonData.reduce((closest, current) => {
       // Parse the current date string into a Date object
       const currentDate = new Date(current.time);
 
@@ -77,19 +83,20 @@ function App() {
       const closestDiff = Math.abs(new Date(closest.time) - targetDate);
 
       return currentDiff < closestDiff ? current : closest;
-    }, jsonData[0]);
+    }, moonData[0]);
 
-    const index = jsonData.indexOf(closestMatch);
+    const index = moonData.indexOf(closestMatch);
 
     setCounter(index);
   };
 
   return (
     <div className="App">
-      <h1 style={{ display: "float" }}>2024 Moon Phases</h1>
+      <h1>2024 Moons</h1>
       <img
         src={process.env.PUBLIC_URL + `/moon/moon.${formatNumberWithDigits(counter, 4)}.jpg`}
         style={{ maxHeight: "75vh", maxWidth: "100vw" }}
+        alt="moon"
       />
       <input
         type="datetime-local"
@@ -98,7 +105,6 @@ function App() {
         value={selectedDate}
         onChange={handleDateChange}
       />
-      {/* <button onClick={incrementCounter}>Increase {counter}</button> */}
     </div>
   );
 }
